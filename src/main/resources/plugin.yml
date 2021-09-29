@@ -1,0 +1,8 @@
+name: ChillBedrockBreaker
+version: 1.0
+api-version: 1.13
+main: pl.chillcode.chillbedrockbreaker.ChillBedrockBreaker
+authors: [ Crystal ]
+
+commands:
+  xd:

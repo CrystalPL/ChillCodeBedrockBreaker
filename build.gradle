@@ -1,0 +1,44 @@
+plugins {
+    id 'java'
+    id "com.github.johnrengelman.shadow" version "7.0.0"
+}
+compileJava.options.encoding = 'UTF-8'
+
+group = 'pl.chillcode'
+version = '1.0-SNAPSHOT'
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'spigotmc-repo'
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+    maven {
+        name = 'sonatype'
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+    maven {
+        url "https://storehouse.okaeri.eu/repository/maven-public/"
+    }
+}
+
+dependencies {
+    compileOnly 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+    implementation 'eu.okaeri:okaeri-configs-yaml-bukkit:3.2.0'
+    implementation 'eu.okaeri:okaeri-configs-serdes-bukkit:3.2.0'
+}
+
+shadowJar {
+    relocate 'eu.okaeri', 'pl.chillcode.chillbedrockbreaker.libs.okaeri'
+
+    archiveFileName = "$baseName.$extension"
+    classifier(null)
+    minimize()
+    destinationDirectory.set(new File("F:\\Minecraft\\minecraft1.17\\plugins"))
+}
