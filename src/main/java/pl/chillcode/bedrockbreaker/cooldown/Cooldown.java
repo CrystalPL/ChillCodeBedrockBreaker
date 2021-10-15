@@ -1,4 +1,4 @@
-package pl.chillcode.chillbedrockbreaker.cooldown;
+package pl.chillcode.bedrockbreaker.cooldown;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;

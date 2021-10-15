@@ -1,0 +1,31 @@
+# od którego poziomu włącznie, może być niszczony bedrock
+minimumHeightToBreakBedrock: 1
+
+# do którego poziomu włącznie, może być niszczony bedrock
+maximumHeightToBreakBedrock: 256
+
+# narzędzie, którym będzie niszczony bedrock
+breakTool:
+  material: GOLD_SPADE
+  name: '&2&lŁopata niszcząca bedrock'
+
+# ilość użyć narzędzia
+useAmount: 5
+
+# czy narzędzie niszczące bedrock może być naprawiane w kowadle
+repairItemInAnvil: false
+
+# receptura narzędzia niszczącego bedrock
+# 1 | 2 | 3
+# 4 | 5 | 6
+# 7 | 8 | 9
+crafting:
+  '1': GOLD_BLOCK
+  '2': GOLD_BLOCK
+  '3': GOLD_BLOCK
+  '4': AIR
+  '5': GOLD_BLOCK
+  '6': AIR
+  '7': AIR
+  '8': GOLD_BLOCK
+  '9': AIR

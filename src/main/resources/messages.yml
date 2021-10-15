@@ -1,0 +1,18 @@
+# wiadomość wyświetlana gdy gracz próbuje naprawić przedmiot niszczący bedrock w kowadle
+noRepairInAnvil:
+  chat: "&9&lBedrockBreaker &8» &cNie możesz naprawić tego przedmiotu w kowadle!"
+
+# wiadomość wyświetlana gdy gracz próbuje niszczyć bedrock poza wskazanym zakresem
+breakBedrockOutOfScope:
+  chat: "&9&lBedrockBreaker &8» &cNie możesz niszczyć bedrocka na tym poziomie!"
+
+# wiadomośc wyświetlana gdy gracz za szybko niszczy bedrocka
+# {TIME} - czas do następnej możliwości zniszczenia bedrocka
+cooldownBreakTime:
+  chat: "&9&lBedrockBreaker &8» &7Musisz odczekać &6{TIME} &7przed następnym usunięciem bedrocka."
+
+# wiadomość wyświetlana gdy bedrock zostanie usunięty
+removeBedrock:
+  chat: "&9&lBedrockBreaker &8» &7Bedrock został usunięty."
+
+
