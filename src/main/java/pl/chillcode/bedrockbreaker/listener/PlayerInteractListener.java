@@ -62,7 +62,7 @@ public final class PlayerInteractListener implements Listener {
 
         final Integer bedrockBreakerUseAmount = eventItemNBT.getInteger("bedrockBreakerUseAmount");
         eventItemNBT.setInteger("bedrockBreakerUseAmount", bedrockBreakerUseAmount - 1);
-        eventItem.setDurability((short) (eventItem.getDurability() + config.getSubtracedValue()));
+        eventItem.setDurability((short) (eventItem.getDurability() + config.getSubtractedValue()));
         if (bedrockBreakerUseAmount - 1 <= 0) {
             player.getInventory().remove(eventItem);
         }

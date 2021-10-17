@@ -24,7 +24,7 @@ public final class Config {
     ItemStack breakTool;
     int useAmount;
     boolean repairItemInAnvil;
-    int subtracedValue;
+    int subtractedValue;
 
     public boolean load() {
         final Optional<Integer> minimumHeightToBreakBedrockOptional = NumberUtil.getInt(config.get("minimumHeightToBreakBedrock"));
@@ -70,7 +70,7 @@ public final class Config {
             return false;
         }
 
-        this.subtracedValue = breakTool.getType().getMaxDurability() / useAmount;
+        this.subtractedValue = breakTool.getType().getMaxDurability() / useAmount;
 
         return true;
     }
