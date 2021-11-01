@@ -27,7 +27,7 @@ public final class ChillBedrockBreaker extends JavaPlugin {
             return;
         }
 
-        //check if nbtapi plugin is enable
+        //check if nbtapi plugin is enabled
         if (!nbtapi.isEnabled()) {
             LogUtil.error("Odnaleziono plugin NBTAPI, lecz nie jest on uruchomiony!");
             LogUtil.error("Wyłączanie pluginu");
