@@ -12,6 +12,8 @@ import pl.crystalek.crcapi.config.exception.ConfigLoadException;
 import pl.crystalek.crcapi.util.LogUtil;
 import pl.crystalek.crcapi.util.NumberUtil;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -22,6 +24,8 @@ public final class Config {
     int minimumHeightToBreakBedrock;
     int maximumHeightToBreakBedrock;
     ItemStack breakTool;
+    List<String> breakToolLore;
+    String breakToolName;
     int useAmount;
     boolean repairItemInAnvil;
     int subtractedValue;
@@ -60,6 +64,8 @@ public final class Config {
             return false;
         }
 
+        this.breakToolLore = breakTool.getItemMeta().getLore() != null ? breakTool.getItemMeta().getLore() : new ArrayList<>();
+        this.breakToolName = breakTool.getItemMeta().getDisplayName();
         this.repairItemInAnvil = config.getBoolean("repairItemInAnvil");
 
         try {

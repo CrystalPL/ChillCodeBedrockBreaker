@@ -13,9 +13,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import pl.chillcode.bedrockbreaker.config.Config;
 import pl.chillcode.bedrockbreaker.cooldown.Cooldown;
 import pl.crystalek.crcapi.message.MessageAPI;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
@@ -65,6 +69,21 @@ public final class PlayerInteractListener implements Listener {
         eventItem.setDurability((short) (eventItem.getDurability() + config.getSubtractedValue()));
         if (bedrockBreakerUseAmount - 1 <= 0) {
             player.getInventory().remove(eventItem);
+        } else {
+            final ItemMeta itemMeta = eventItem.getItemMeta();
+            final String displayName = config.getBreakToolName()
+                    .replace("{USE_AMOUNT}", String.valueOf(bedrockBreakerUseAmount))
+                    .replace("{MAX_USE_AMOUNT}", String.valueOf(config.getUseAmount())
+                    );
+            final List<String> breakToolLore = new ArrayList<>(config.getBreakToolLore());
+            breakToolLore.replaceAll(lore -> lore
+                    .replace("{USE_AMOUNT}", String.valueOf(bedrockBreakerUseAmount))
+                    .replace("{MAX_USE_AMOUNT}", String.valueOf(config.getUseAmount())
+                    ));
+
+            itemMeta.setDisplayName(displayName);
+            itemMeta.setLore(breakToolLore);
+            eventItem.setItemMeta(itemMeta);
         }
 
         clickedBlock.setType(Material.AIR);
