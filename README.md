@@ -2,6 +2,8 @@
 
 Plugin dodaje możliwość niszczenia bedrocka poprzez wskazany w konfiguracji przedmiot.
 
+**Do działnia pluginu wymagany jest plugin [NBTAPI](https://www.spigotmc.org/resources/nbt-api.7939/)**
+
 ___
 
 ### Instalacja
