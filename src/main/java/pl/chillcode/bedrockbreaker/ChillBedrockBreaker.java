@@ -9,7 +9,6 @@ import pl.chillcode.bedrockbreaker.listener.InventoryClickListener;
 import pl.chillcode.bedrockbreaker.listener.PlayerInteractListener;
 import pl.crystalek.crcapi.config.ConfigHelper;
 import pl.crystalek.crcapi.message.MessageAPI;
-import pl.crystalek.crcapi.util.LogUtil;
 
 import java.io.IOException;
 
@@ -21,42 +20,42 @@ public final class ChillBedrockBreaker extends JavaPlugin {
         //check if nbtapi plugin is exist
         final Plugin nbtapi = Bukkit.getPluginManager().getPlugin("NBTAPI");
         if (nbtapi == null) {
-            LogUtil.error("Nie odnaleziono pluginu NBTAPI!");
-            LogUtil.error("Wyłączanie pluginu");
+            getLogger().severe("Nie odnaleziono pluginu NBTAPI!");
+            getLogger().severe("Wyłączanie pluginu");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
 
         //check if nbtapi plugin is enabled
         if (!nbtapi.isEnabled()) {
-            LogUtil.error("Odnaleziono plugin NBTAPI, lecz nie jest on uruchomiony!");
-            LogUtil.error("Wyłączanie pluginu");
+            getLogger().severe("Odnaleziono plugin NBTAPI, lecz nie jest on uruchomiony!");
+            getLogger().severe("Wyłączanie pluginu");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
 
         //load config
-        final ConfigHelper configHelper = new ConfigHelper("config.yml");
+        final ConfigHelper configHelper = new ConfigHelper("config.yml", this);
         try {
             configHelper.checkExist();
             configHelper.load();
         } catch (final IOException exception) {
-            LogUtil.error("Nie udało się utworzyć pliku konfiguracyjnego..");
-            LogUtil.error("Wyłączanie pluginu");
+            getLogger().severe("Nie udało się utworzyć pliku konfiguracyjnego..");
+            getLogger().severe("Wyłączanie pluginu");
             Bukkit.getPluginManager().disablePlugin(this);
             exception.printStackTrace();
             return;
         }
 
-        config = new Config(configHelper.getConfiguration());
+        config = new Config(configHelper.getConfiguration(), this);
         if (!config.load()) {
-            LogUtil.error("Wyłączanie pluginu..");
+            getLogger().severe("Wyłączanie pluginu");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
 
         //load messages
-        final MessageAPI messageAPI = new MessageAPI();
+        final MessageAPI messageAPI = new MessageAPI(this);
         if (!messageAPI.init()) {
             return;
         }

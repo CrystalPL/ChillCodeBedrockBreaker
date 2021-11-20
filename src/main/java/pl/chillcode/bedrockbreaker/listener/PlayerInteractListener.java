@@ -24,8 +24,9 @@ import java.util.List;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
 public final class PlayerInteractListener implements Listener {
-    Config config;
     Cooldown cooldown = new Cooldown();
+    Config config;
+    MessageAPI messageAPI;
 
     @EventHandler
     public void onInteract(final PlayerInteractEvent event) {
@@ -51,14 +52,14 @@ public final class PlayerInteractListener implements Listener {
         final Player player = event.getPlayer();
         final int y = clickedBlock.getY();
         if (y < config.getMinimumHeightToBreakBedrock() || y > config.getMaximumHeightToBreakBedrock()) {
-            MessageAPI.sendMessage("breakBedrockOutOfScope", player);
+            messageAPI.sendMessage("breakBedrockOutOfScope", player);
             return;
         }
 
 
         final Long coolDownTime = cooldown.getCooldown(player.getUniqueId());
         if (coolDownTime != null && System.currentTimeMillis() - coolDownTime < 500) {
-            MessageAPI.sendMessage("cooldownBreakTime", player, ImmutableMap.of("{TIME}", System.currentTimeMillis() - coolDownTime));
+            messageAPI.sendMessage("cooldownBreakTime", player, ImmutableMap.of("{TIME}", System.currentTimeMillis() - coolDownTime));
             return;
         }
 
@@ -87,6 +88,6 @@ public final class PlayerInteractListener implements Listener {
         }
 
         clickedBlock.setType(Material.AIR);
-        MessageAPI.sendMessage("removeBedrock", player);
+        messageAPI.sendMessage("removeBedrock", player);
     }
 }

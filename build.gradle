@@ -33,14 +33,12 @@ dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
-    implementation name: 'CrCAPICore'
-    implementation name: 'CrCAPIMessage'
+    compileOnly name: 'CrCAPICore'
+    compileOnly name: 'CrCAPIMessage'
     compileOnly 'de.tr7zw:item-nbt-api-plugin:2.8.0'
 }
 
 shadowJar {
-    relocate 'pl.crystalek.crcapi', 'pl.chillcode.bedrockbreaker.lib.api'
-
     archiveFileName = "$baseName.$extension"
     classifier(null)
     minimize()

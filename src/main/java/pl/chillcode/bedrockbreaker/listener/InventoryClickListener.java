@@ -1,6 +1,9 @@
 package pl.chillcode.bedrockbreaker.listener;
 
 import de.tr7zw.nbtapi.NBTItem;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.bukkit.Material;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -11,7 +14,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import pl.crystalek.crcapi.message.MessageAPI;
 
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 public final class InventoryClickListener implements Listener {
+    MessageAPI messageAPI;
 
     @EventHandler
     public void onClick(final InventoryClickEvent event) {
@@ -37,6 +43,6 @@ public final class InventoryClickListener implements Listener {
 
         event.setResult(Event.Result.DENY);
         event.setCancelled(true);
-        MessageAPI.sendMessage("noRepairInAnvil", event.getWhoClicked());
+        messageAPI.sendMessage("noRepairInAnvil", event.getWhoClicked());
     }
 }

@@ -5,11 +5,13 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
+import pl.crystalek.crcapi.Recipe;
 import pl.crystalek.crcapi.config.ConfigParserUtil;
 import pl.crystalek.crcapi.config.exception.ConfigLoadException;
-import pl.crystalek.crcapi.util.LogUtil;
 import pl.crystalek.crcapi.util.NumberUtil;
 
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import java.util.Optional;
 @Getter
 public final class Config {
     final FileConfiguration config;
+    final JavaPlugin plugin;
     int minimumHeightToBreakBedrock;
     int maximumHeightToBreakBedrock;
     ItemStack breakTool;
@@ -33,21 +36,21 @@ public final class Config {
     public boolean load() {
         final Optional<Integer> minimumHeightToBreakBedrockOptional = NumberUtil.getInt(config.get("minimumHeightToBreakBedrock"));
         if (!minimumHeightToBreakBedrockOptional.isPresent() || minimumHeightToBreakBedrockOptional.get() < 0) {
-            LogUtil.error("Wartość pola minimumHeightToBreakBedrock musi być liczbą z zakresu <0, 2_147_483_468>!");
+            Bukkit.getLogger().severe("Wartość pola minimumHeightToBreakBedrock musi być liczbą z zakresu <0, 2_147_483_468>!");
             return false;
         }
         this.minimumHeightToBreakBedrock = minimumHeightToBreakBedrockOptional.get();
 
         final Optional<Integer> maximumHeightToBreakBedrock = NumberUtil.getInt(config.get("maximumHeightToBreakBedrock"));
         if (!maximumHeightToBreakBedrock.isPresent() || maximumHeightToBreakBedrock.get() < 0) {
-            LogUtil.error("Wartość pola maximumHeightToBreakBedrock musi być liczbą z zakresu <0, 2_147_483_468>!");
+            Bukkit.getLogger().severe("Wartość pola maximumHeightToBreakBedrock musi być liczbą z zakresu <0, 2_147_483_468>!");
             return false;
         }
         this.maximumHeightToBreakBedrock = maximumHeightToBreakBedrock.get();
 
         final Optional<Integer> useAmountOptional = NumberUtil.getInt(config.get("useAmount"));
         if (!useAmountOptional.isPresent() || useAmountOptional.get() < 0) {
-            LogUtil.error("Wartość pola useAmount musi być liczbą z zakresu <1, 2_147_483_468>!");
+            Bukkit.getLogger().severe("Wartość pola useAmount musi być liczbą z zakresu <1, 2_147_483_468>!");
             return false;
         }
         this.useAmount = useAmountOptional.get();
@@ -59,8 +62,8 @@ public final class Config {
             nbtItem.setBoolean("bedrockBreakerItem", true);
             nbtItem.setInteger("bedrockBreakerUseAmount", useAmount);
         } catch (final ConfigLoadException exception) {
-            LogUtil.error("Wystąpił błąd podczas ładowania sekcji breakTool!");
-            LogUtil.error(exception.getMessage());
+            Bukkit.getLogger().severe("Wystąpił błąd podczas ładowania sekcji breakTool!");
+            Bukkit.getLogger().severe(exception.getMessage());
             return false;
         }
 
@@ -68,13 +71,15 @@ public final class Config {
         this.breakToolName = breakTool.getItemMeta().getDisplayName();
         this.repairItemInAnvil = config.getBoolean("repairItemInAnvil");
 
+        final Recipe recipe = new Recipe("bedrock_breaker", breakTool);
         try {
-            ConfigParserUtil.getRecipe(config.getConfigurationSection("crafting")).recipeName("bedrock_breaker").resultItem(breakTool).build().registerRecipe();
+            ConfigParserUtil.getRecipe(config.getConfigurationSection("crafting"), recipe);
         } catch (final ConfigLoadException exception) {
-            LogUtil.error("Wystąpił błąd podczas ładowania receptury z pola crafting!");
-            LogUtil.error(exception.getMessage());
+            Bukkit.getLogger().severe("Wystąpił błąd podczas ładowania receptury z pola crafting!");
+            Bukkit.getLogger().severe(exception.getMessage());
             return false;
         }
+        recipe.registerRecipe(plugin);
 
         this.subtractedValue = breakTool.getType().getMaxDurability() / useAmount;
 
