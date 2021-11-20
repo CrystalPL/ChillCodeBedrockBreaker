@@ -62,10 +62,10 @@ public final class ChillBedrockBreaker extends JavaPlugin {
 
         //register listeners
         final PluginManager pluginManager = Bukkit.getPluginManager();
-        pluginManager.registerEvents(new PlayerInteractListener(config), this);
+        pluginManager.registerEvents(new PlayerInteractListener(config, messageAPI), this);
 
         if (!config.isRepairItemInAnvil()) {
-            pluginManager.registerEvents(new InventoryClickListener(), this);
+            pluginManager.registerEvents(new InventoryClickListener(messageAPI), this);
         }
     }
 }
