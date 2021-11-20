@@ -2,4 +2,4 @@ name: ChillBedrockBreaker
 version: 1.0
 main: pl.chillcode.bedrockbreaker.ChillBedrockBreaker
 authors: [ Crystal ]
-depend: [ NBTAPI ]
+depend: [ CrCAPICore, CrCAPIMessage, NBTAPI ]
