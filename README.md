@@ -2,7 +2,7 @@
 
 Plugin dodaje możliwość niszczenia bedrocka poprzez wskazany w konfiguracji przedmiot.
 
-**Do działania pluginu wymagane są następujące pluginy: CrCAPICore, CrCAPIMessage
+Do działania pluginu wymagane są następujące pluginy: **CrCAPICore, CrCAPIMessage
 i [NBTAPI](https://www.spigotmc.org/resources/nbt-api.7939/)**
 
 ___
