@@ -42,5 +42,5 @@ shadowJar {
     archiveFileName = "$baseName.$extension"
     classifier(null)
     minimize()
-    destinationDirectory.set(new File("F:\\Minecraft\\minecraft1.17\\plugins"))
+    destinationDirectory.set(new File("F:\\Minecraft\\minecraft1.8.8\\plugins"))
 }
