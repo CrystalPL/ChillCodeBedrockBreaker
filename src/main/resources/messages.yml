@@ -1,18 +1,41 @@
-# wiadomość wyświetlana gdy gracz próbuje naprawić przedmiot niszczący bedrock w kowadle
+# wiadomość wyświetlana, gdy komenda zostanie wykonana z konsoli
+noConsole:
+  chat: "&b&lMagicCase &8» &cTa komenda nie może zostać wywołana z poziomu konsoli!"
+
+# wiadomość wyświetlana, gdy gracz nie ma permisji do użycia komendy
+# {PERMISSION} - nazwa wymaganej permisji
+noPermission:
+  chat: "&b&lMagicCase &8» &cBrak uprawnień &7(&6{PERMISSION}&7)."
+
+# wiadomość wyświetlana, gdy gracz próbuje naprawić przedmiot niszczący bedrock w kowadle
 noRepairInAnvil:
   chat: "&9&lBedrockBreaker &8» &cNie możesz naprawić tego przedmiotu w kowadle!"
 
-# wiadomość wyświetlana gdy gracz próbuje niszczyć bedrock poza wskazanym zakresem
+# wiadomość wyświetlana, gdy gracz próbuje niszczyć bedrock poza wskazanym zakresem
 breakBedrockOutOfScope:
   chat: "&9&lBedrockBreaker &8» &cNie możesz niszczyć bedrocka na tym poziomie!"
 
-# wiadomośc wyświetlana gdy gracz za szybko niszczy bedrocka
+# wiadomość wyświetlana, gdy gracz za szybko niszczy bedrocka
 # {TIME} - czas do następnej możliwości zniszczenia bedrocka
 cooldownBreakTime:
   chat: "&9&lBedrockBreaker &8» &7Musisz odczekać &6{TIME} &7przed następnym usunięciem bedrocka."
 
-# wiadomość wyświetlana gdy bedrock zostanie usunięty
+# wiadomość wyświetlana, gdy bedrock zostanie usunięty
+# {USE_AMOUNT} - aktualna ilość użyć przedmiotu
+# {MAX_USE_AMOUNT} - maksymalna ilość użyć przedmiotu
 removeBedrock:
   chat: "&9&lBedrockBreaker &8» &7Bedrock został usunięty."
+
+# wiadomość wyświetlana po wywołaniu komendy /bedrockbreaker
+giveItem:
+  chat: "&9&lBedrockBreaker &8» &7Otrzymałeś przedmiot niszczący bedrock."
+
+# wiadomość wyświetlana, gdy gracz próbuje niszczyć inny przedmiot niż bedrock narzędziem do niszczenia bedrocka
+breakOnlyBedrock:
+  chat: "&9&lBedrockBreaker &8» &cTym przedmiotem możesz niszczyć tylko bedrock!"
+
+# wiadomość wyświetlana, gdy komenda zostanie wywołana niepoprawnie
+commandUsage:
+  chat: "&9&lBedrockBreaker &8» &cPoprawne użycie: &7/bedrockbreaker."
 
 

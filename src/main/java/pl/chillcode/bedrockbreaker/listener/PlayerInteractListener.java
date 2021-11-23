@@ -30,7 +30,23 @@ public final class PlayerInteractListener implements Listener {
 
     @EventHandler
     public void onInteract(final PlayerInteractEvent event) {
-        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+        if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
+            if (!config.isBreakOnlyBedrock()) {
+                return;
+            }
+
+            final Block clickedBlock = event.getClickedBlock();
+            if (clickedBlock == null) {
+                return;
+            }
+
+            final NBTItem eventItemNBT = new NBTItem(event.getItem(), true);
+            if (eventItemNBT.getBoolean("bedrockBreakerItem")) {
+                messageAPI.sendMessage("breakOnlyBedrock", event.getPlayer());
+                event.setCancelled(true);
+                return;
+            }
+        } else if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
             return;
         }
 
@@ -68,18 +84,21 @@ public final class PlayerInteractListener implements Listener {
         final Integer bedrockBreakerUseAmount = eventItemNBT.getInteger("bedrockBreakerUseAmount");
         eventItemNBT.setInteger("bedrockBreakerUseAmount", bedrockBreakerUseAmount - 1);
         eventItem.setDurability((short) (eventItem.getDurability() + config.getSubtractedValue()));
+        final String ActualUseAmount = String.valueOf(bedrockBreakerUseAmount);
+        final String maxUseAmount = String.valueOf(config.getUseAmount());
+
         if (bedrockBreakerUseAmount - 1 <= 0) {
             player.getInventory().remove(eventItem);
         } else {
             final ItemMeta itemMeta = eventItem.getItemMeta();
             final String displayName = config.getBreakToolName()
-                    .replace("{USE_AMOUNT}", String.valueOf(bedrockBreakerUseAmount))
-                    .replace("{MAX_USE_AMOUNT}", String.valueOf(config.getUseAmount())
+                    .replace("{USE_AMOUNT}", ActualUseAmount)
+                    .replace("{MAX_USE_AMOUNT}", maxUseAmount
                     );
             final List<String> breakToolLore = new ArrayList<>(config.getBreakToolLore());
             breakToolLore.replaceAll(lore -> lore
-                    .replace("{USE_AMOUNT}", String.valueOf(bedrockBreakerUseAmount))
-                    .replace("{MAX_USE_AMOUNT}", String.valueOf(config.getUseAmount())
+                    .replace("{USE_AMOUNT}", ActualUseAmount)
+                    .replace("{MAX_USE_AMOUNT}", maxUseAmount
                     ));
 
             itemMeta.setDisplayName(displayName);
@@ -88,6 +107,6 @@ public final class PlayerInteractListener implements Listener {
         }
 
         clickedBlock.setType(Material.AIR);
-        messageAPI.sendMessage("removeBedrock", player);
+        messageAPI.sendMessage("removeBedrock", player, ImmutableMap.of("{USE_AMOUNT}", ActualUseAmount, "{MAX_USE_AMOUNT}", maxUseAmount));
     }
 }

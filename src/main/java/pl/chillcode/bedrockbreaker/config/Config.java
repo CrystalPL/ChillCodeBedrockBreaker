@@ -15,6 +15,7 @@ import pl.crystalek.crcapi.config.exception.ConfigLoadException;
 import pl.crystalek.crcapi.util.NumberUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,8 +33,17 @@ public final class Config {
     int useAmount;
     boolean repairItemInAnvil;
     int subtractedValue;
+    boolean breakOnlyBedrock;
+
+    String bedrockBreakerCommand;
+    List<String> bedrockBreakerCommandAliases;
 
     public boolean load() {
+        this.bedrockBreakerCommand = config.getString("command.bedrockBreaker.name");
+        this.bedrockBreakerCommandAliases = Arrays.asList(config.getString("command.bedrockBreaker.aliases").split(", "));
+
+        this.breakOnlyBedrock = config.getBoolean("breakOnlyBedrock");
+
         final Optional<Integer> minimumHeightToBreakBedrockOptional = NumberUtil.getInt(config.get("minimumHeightToBreakBedrock"));
         if (!minimumHeightToBreakBedrockOptional.isPresent() || minimumHeightToBreakBedrockOptional.get() < 0) {
             Bukkit.getLogger().severe("Wartość pola minimumHeightToBreakBedrock musi być liczbą z zakresu <0, 2_147_483_468>!");

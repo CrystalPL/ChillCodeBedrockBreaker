@@ -1,3 +1,13 @@
+# Konfiguracja komendy /bedrockBreaker
+command:
+  bedrockBreaker:
+    name: "bedrockbreaker"
+    aliases: ""
+
+# czy przedmiot może być używany zgodnie ze swoim przeznaczeniem, tj. czy ma niszczyć tylko bedrock
+# jeśli dasz na true, gracz tym przedmiotem nie będzie mógł niszczyć np. ziemi, drewna.
+breakOnlyBedrock: false
+
 # od którego poziomu włącznie, może być niszczony bedrock
 minimumHeightToBreakBedrock: 1
 

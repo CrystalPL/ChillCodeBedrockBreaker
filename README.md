@@ -13,3 +13,11 @@ Plugin przeznaczony jest dla wersji MC od 1.8 do 1.17.1. Działa z dowolnym siln
 Spigot, Paper, Tuinity itp.
 ___
 
+### Komendy
+
+W pluginie jest jedna komenda /case, z aliasem /magiccase. Komenda, jak i alias jest możliwa do zmiany w pliku
+konfiguracyjnym.
+
+|     Komenda     |          Uprawnienie          |                  Opis komendy             |
+|-----------------|-------------------------------|-------------------------------------------|
+|/bedrockbreaker  | chillcode.bedrockbreaker.give | Daje graczowi przedmiot niszczący bedrock |

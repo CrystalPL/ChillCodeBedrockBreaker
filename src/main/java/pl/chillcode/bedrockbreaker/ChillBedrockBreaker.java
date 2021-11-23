@@ -4,16 +4,17 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import pl.chillcode.bedrockbreaker.command.GiveCommand;
 import pl.chillcode.bedrockbreaker.config.Config;
 import pl.chillcode.bedrockbreaker.listener.InventoryClickListener;
 import pl.chillcode.bedrockbreaker.listener.PlayerInteractListener;
+import pl.crystalek.crcapi.command.CommandRegistry;
 import pl.crystalek.crcapi.config.ConfigHelper;
 import pl.crystalek.crcapi.message.MessageAPI;
 
 import java.io.IOException;
 
 public final class ChillBedrockBreaker extends JavaPlugin {
-    Config config;
 
     @Override
     public void onEnable() {
@@ -47,7 +48,7 @@ public final class ChillBedrockBreaker extends JavaPlugin {
             return;
         }
 
-        config = new Config(configHelper.getConfiguration(), this);
+        final Config config = new Config(configHelper.getConfiguration(), this);
         if (!config.load()) {
             getLogger().severe("Wyłączanie pluginu");
             Bukkit.getPluginManager().disablePlugin(this);
@@ -67,5 +68,7 @@ public final class ChillBedrockBreaker extends JavaPlugin {
         if (!config.isRepairItemInAnvil()) {
             pluginManager.registerEvents(new InventoryClickListener(messageAPI), this);
         }
+
+        CommandRegistry.register(new GiveCommand(config, messageAPI));
     }
 }
