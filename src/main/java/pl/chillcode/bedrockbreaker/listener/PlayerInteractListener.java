@@ -84,11 +84,12 @@ public final class PlayerInteractListener implements Listener {
         final Integer bedrockBreakerUseAmount = eventItemNBT.getInteger("bedrockBreakerUseAmount");
         eventItemNBT.setInteger("bedrockBreakerUseAmount", bedrockBreakerUseAmount - 1);
         eventItem.setDurability((short) (eventItem.getDurability() + config.getSubtractedValue()));
-        final String ActualUseAmount = String.valueOf(bedrockBreakerUseAmount);
+        final String ActualUseAmount = String.valueOf(bedrockBreakerUseAmount - 1);
         final String maxUseAmount = String.valueOf(config.getUseAmount());
 
         if (bedrockBreakerUseAmount - 1 <= 0) {
             player.getInventory().remove(eventItem);
+            messageAPI.sendMessage("breakIfLastUsage", player);
         } else {
             final ItemMeta itemMeta = eventItem.getItemMeta();
             final String displayName = config.getBreakToolName()
@@ -104,9 +105,9 @@ public final class PlayerInteractListener implements Listener {
             itemMeta.setDisplayName(displayName);
             itemMeta.setLore(breakToolLore);
             eventItem.setItemMeta(itemMeta);
+            messageAPI.sendMessage("removeBedrock", player, ImmutableMap.of("{USE_AMOUNT}", ActualUseAmount, "{MAX_USE_AMOUNT}", maxUseAmount));
         }
 
         clickedBlock.setType(Material.AIR);
-        messageAPI.sendMessage("removeBedrock", player, ImmutableMap.of("{USE_AMOUNT}", ActualUseAmount, "{MAX_USE_AMOUNT}", maxUseAmount));
     }
 }

@@ -24,7 +24,7 @@ cooldownBreakTime:
 # {USE_AMOUNT} - aktualna ilość użyć przedmiotu
 # {MAX_USE_AMOUNT} - maksymalna ilość użyć przedmiotu
 removeBedrock:
-  chat: "&9&lBedrockBreaker &8» &7Bedrock został usunięty."
+  chat: "&9&lBedrockBreaker &8» &7Bedrock został usunięty. {USE_AMOUNT}/{MAX_USE_AMOUNT}"
 
 # wiadomość wyświetlana po wywołaniu komendy /bedrockbreaker
 giveItem:
@@ -33,6 +33,10 @@ giveItem:
 # wiadomość wyświetlana, gdy gracz próbuje niszczyć inny przedmiot niż bedrock narzędziem do niszczenia bedrocka
 breakOnlyBedrock:
   chat: "&9&lBedrockBreaker &8» &cTym przedmiotem możesz niszczyć tylko bedrock!"
+
+# wiadomość wyświetlana, gdy narzędzie do niszczenia bedrocka straci swoje użycia
+breakIfLastUsage:
+  chat: "&9&lBedrockBreaker &8» &7Przedmiot do niszczenia bedrocka właśnie się skończył"
 
 # wiadomość wyświetlana, gdy komenda zostanie wywołana niepoprawnie
 commandUsage:

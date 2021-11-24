@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.crystalek.crcapi.Recipe;
 import pl.crystalek.crcapi.config.ConfigParserUtil;
@@ -66,9 +67,32 @@ public final class Config {
         this.useAmount = useAmountOptional.get();
 
         try {
-            this.breakTool = ConfigParserUtil.getItem(config.getConfigurationSection("breakTool"));
+            final ItemStack breakTool = ConfigParserUtil.getItem(config.getConfigurationSection("breakTool"));
+            this.breakToolName = breakTool.getItemMeta().getDisplayName();
+            this.breakToolLore = breakTool.getItemMeta().getLore() != null ? breakTool.getItemMeta().getLore() : new ArrayList<>();
+            final ItemMeta itemMeta = breakTool.getItemMeta();
+            final List<String> lore = itemMeta.getLore();
+            if (lore != null) {
+                this.breakToolLore = new ArrayList<>(lore);
+                lore.replaceAll(x -> x
+                        .replace("{USE_AMOUNT}", String.valueOf(useAmount))
+                        .replace("{MAX_USE_AMOUNT}", String.valueOf(useAmount))
+                );
 
-            final NBTItem nbtItem = new NBTItem(breakTool, true);
+                itemMeta.setLore(lore);
+            } else {
+                this.breakToolLore = new ArrayList<>();
+            }
+
+            itemMeta.setDisplayName(itemMeta.getDisplayName()
+                    .replace("{USE_AMOUNT}", String.valueOf(useAmount))
+                    .replace("{MAX_USE_AMOUNT}", String.valueOf(useAmount))
+            );
+
+            breakTool.setItemMeta(itemMeta);
+            this.breakTool = breakTool;
+
+            final NBTItem nbtItem = new NBTItem(this.breakTool, true);
             nbtItem.setBoolean("bedrockBreakerItem", true);
             nbtItem.setInteger("bedrockBreakerUseAmount", useAmount);
         } catch (final ConfigLoadException exception) {
@@ -77,8 +101,6 @@ public final class Config {
             return false;
         }
 
-        this.breakToolLore = breakTool.getItemMeta().getLore() != null ? breakTool.getItemMeta().getLore() : new ArrayList<>();
-        this.breakToolName = breakTool.getItemMeta().getDisplayName();
         this.repairItemInAnvil = config.getBoolean("repairItemInAnvil");
 
         final Recipe recipe = new Recipe("bedrock_breaker", breakTool);

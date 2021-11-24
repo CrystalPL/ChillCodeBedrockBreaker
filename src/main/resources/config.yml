@@ -20,7 +20,10 @@ maximumHeightToBreakBedrock: 256
 # zmiennych można używać zarówno w nawie, jak i w opisie przedmiotu
 breakTool:
   material: GOLD_SPADE
-  name: '&2&lŁopata niszcząca bedrock'
+  name: '&2&lŁopata niszcząca bedrock {USE_AMOUNT}/{MAX_USE_AMOUNT}'
+  lore:
+    - "{USE_AMOUNT}"
+    - "{MAX_USE_AMOUNT}"
 
 # ilość użyć narzędzia
 useAmount: 5
