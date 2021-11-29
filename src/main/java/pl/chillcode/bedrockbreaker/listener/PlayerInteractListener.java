@@ -30,6 +30,11 @@ public final class PlayerInteractListener implements Listener {
 
     @EventHandler
     public void onInteract(final PlayerInteractEvent event) {
+        final ItemStack eventItem = event.getItem();
+        if (eventItem == null) {
+            return;
+        }
+
         if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
             if (!config.isBreakOnlyBedrock()) {
                 return;
@@ -40,7 +45,7 @@ public final class PlayerInteractListener implements Listener {
                 return;
             }
 
-            final NBTItem eventItemNBT = new NBTItem(event.getItem(), true);
+            final NBTItem eventItemNBT = new NBTItem(eventItem, true);
             if (eventItemNBT.getBoolean("bedrockBreakerItem")) {
                 messageAPI.sendMessage("breakOnlyBedrock", event.getPlayer());
                 event.setCancelled(true);
@@ -52,11 +57,6 @@ public final class PlayerInteractListener implements Listener {
 
         final Block clickedBlock = event.getClickedBlock();
         if (clickedBlock.getType() != Material.BEDROCK) {
-            return;
-        }
-
-        final ItemStack eventItem = event.getItem();
-        if (eventItem == null) {
             return;
         }
 
