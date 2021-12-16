@@ -11,6 +11,7 @@ import pl.chillcode.bedrockbreaker.listener.PlayerInteractListener;
 import pl.crystalek.crcapi.command.CommandRegistry;
 import pl.crystalek.crcapi.config.ConfigHelper;
 import pl.crystalek.crcapi.message.MessageAPI;
+import pl.crystalek.crcapi.singlemessage.SingleMessageAPI;
 
 import java.io.IOException;
 
@@ -56,7 +57,7 @@ public final class ChillBedrockBreaker extends JavaPlugin {
         }
 
         //load messages
-        final MessageAPI messageAPI = new MessageAPI(this);
+        final MessageAPI messageAPI = new SingleMessageAPI(this);
         if (!messageAPI.init()) {
             return;
         }
