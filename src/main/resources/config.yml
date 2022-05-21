@@ -1,6 +1,6 @@
 # Konfiguracja komendy /bedrockBreaker
 command:
-  bedrockBreaker:
+  GiveCommand:
     name: "bedrockbreaker"
     aliases: ""
 

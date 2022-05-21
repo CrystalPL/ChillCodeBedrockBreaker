@@ -16,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import pl.chillcode.bedrockbreaker.config.Config;
 import pl.chillcode.bedrockbreaker.cooldown.Cooldown;
-import pl.crystalek.crcapi.message.MessageAPI;
+import pl.crystalek.crcapi.message.api.MessageAPI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +79,7 @@ public final class PlayerInteractListener implements Listener {
             return;
         }
 
-        cooldown.addColdown(player.getUniqueId());
+        cooldown.addCooldown(player.getUniqueId());
 
         final Integer bedrockBreakerUseAmount = eventItemNBT.getInteger("bedrockBreakerUseAmount");
         eventItemNBT.setInteger("bedrockBreakerUseAmount", bedrockBreakerUseAmount - 1);

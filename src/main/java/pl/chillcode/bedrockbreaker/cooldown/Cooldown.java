@@ -19,7 +19,7 @@ public final class Cooldown {
         return cooldownMap.getIfPresent(uuid);
     }
 
-    public void addColdown(final UUID uuid) {
+    public void addCooldown(final UUID uuid) {
         cooldownMap.put(uuid, System.currentTimeMillis());
     }
 }
