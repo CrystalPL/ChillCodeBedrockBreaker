@@ -5,7 +5,7 @@ import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
-import pl.crystalek.crcapi.command.impl.SingleCommand;
+import pl.crystalek.crcapi.command.impl.Command;
 import pl.crystalek.crcapi.command.loader.CommandLoader;
 import pl.crystalek.crcapi.command.model.CommandData;
 import pl.crystalek.crcapi.core.Recipe;
@@ -19,7 +19,7 @@ import java.util.Map;
 
 @Getter
 public final class Config extends ConfigHelper {
-    Map<Class<? extends SingleCommand>, CommandData> commandDataMap;
+    Map<Class<? extends Command>, CommandData> commandDataMap;
     int minimumHeightToBreakBedrock;
     int maximumHeightToBreakBedrock;
     ItemStack breakTool;
@@ -35,7 +35,7 @@ public final class Config extends ConfigHelper {
     }
 
     public void loadConfig() throws ConfigLoadException {
-        this.commandDataMap = CommandLoader.loadCommands(configuration.getConfigurationSection("command"), plugin.getClass().getClassLoader(), plugin);
+        this.commandDataMap = CommandLoader.loadCommands(configuration.getConfigurationSection("command"), plugin.getClass().getClassLoader());
 
         this.minimumHeightToBreakBedrock = ConfigParserUtil.getInt(configuration, "minimumHeightToBreakBedrock");
         this.maximumHeightToBreakBedrock = ConfigParserUtil.getInt(configuration, "maximumHeightToBreakBedrock");
