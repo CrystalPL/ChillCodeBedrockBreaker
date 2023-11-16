@@ -12,7 +12,9 @@ import pl.crystalek.crcapi.core.Recipe;
 import pl.crystalek.crcapi.core.config.ConfigHelper;
 import pl.crystalek.crcapi.core.config.ConfigParserUtil;
 import pl.crystalek.crcapi.core.config.exception.ConfigLoadException;
+import pl.crystalek.crcapi.core.util.ColorUtil;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +22,9 @@ import java.util.Map;
 @Getter
 public final class Config extends ConfigHelper {
     Map<Class<? extends Command>, CommandData> commandDataMap;
+    String delimiter;
+    String timeDelimiter;
+    boolean shortFormTime;
     int minimumHeightToBreakBedrock;
     int maximumHeightToBreakBedrock;
     ItemStack breakTool;
@@ -29,19 +34,22 @@ public final class Config extends ConfigHelper {
     boolean repairItemInAnvil;
     int subtractedValue;
     boolean breakOnlyBedrock;
+    Duration cooldownTime;
 
     public Config(final JavaPlugin plugin, final String fileName) {
         super(plugin, fileName);
     }
 
-    public void loadConfig() throws ConfigLoadException {
-        this.commandDataMap = CommandLoader.loadCommands(configuration.getConfigurationSection("command"), plugin.getClass().getClassLoader());
-
+    public void reloadConfig() throws ConfigLoadException {
+        this.delimiter = ColorUtil.color(ConfigParserUtil.getString(configuration, "delimiter"));
+        this.timeDelimiter = ColorUtil.color(ConfigParserUtil.getString(configuration, "timeDelimiter"));
+        this.shortFormTime = ConfigParserUtil.getBoolean(configuration, "shortFormTime");
         this.minimumHeightToBreakBedrock = ConfigParserUtil.getInt(configuration, "minimumHeightToBreakBedrock");
         this.maximumHeightToBreakBedrock = ConfigParserUtil.getInt(configuration, "maximumHeightToBreakBedrock");
         this.useAmount = ConfigParserUtil.getInt(configuration, "useAmount");
         this.repairItemInAnvil = ConfigParserUtil.getBoolean(configuration, "repairItemInAnvil");
         this.breakOnlyBedrock = ConfigParserUtil.getBoolean(configuration, "breakOnlyBedrock");
+        this.cooldownTime = Duration.ofSeconds(ConfigParserUtil.getInt(configuration, "cooldownTime", time -> time > 0));
 
         try {
             this.breakTool = ConfigParserUtil.getItem(configuration.getConfigurationSection("breakTool"));
@@ -85,6 +93,12 @@ public final class Config extends ConfigHelper {
             plugin.getLogger().severe("Wystąpił błąd podczas ładowania receptury z pola crafting!");
             throw new ConfigLoadException(exception.getMessage());
         }
+
         recipe.registerRecipe(plugin);
+    }
+
+    public void loadConfig() throws ConfigLoadException {
+        this.commandDataMap = CommandLoader.loadCommands(configuration.getConfigurationSection("command"), plugin.getClass().getClassLoader());
+        reloadConfig();
     }
 }

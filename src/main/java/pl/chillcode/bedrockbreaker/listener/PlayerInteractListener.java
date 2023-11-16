@@ -1,6 +1,5 @@
 package pl.chillcode.bedrockbreaker.listener;
 
-import com.google.common.collect.ImmutableMap;
 import de.tr7zw.nbtapi.NBTItem;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -16,15 +15,19 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import pl.chillcode.bedrockbreaker.config.Config;
 import pl.chillcode.bedrockbreaker.cooldown.Cooldown;
+import pl.crystalek.crcapi.core.time.TimeUtil;
 import pl.crystalek.crcapi.message.api.MessageAPI;
+import pl.crystalek.crcapi.message.api.replacement.Replacement;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
 public final class PlayerInteractListener implements Listener {
-    Cooldown cooldown = new Cooldown();
+    Cooldown cooldown;
     Config config;
     MessageAPI messageAPI;
 
@@ -72,11 +75,14 @@ public final class PlayerInteractListener implements Listener {
             return;
         }
 
-
-        final Long coolDownTime = cooldown.getCooldown(player.getUniqueId());
-        if (coolDownTime != null && System.currentTimeMillis() - coolDownTime < 500) {
-            messageAPI.sendMessage("cooldownBreakTime", player, ImmutableMap.of("{TIME}", System.currentTimeMillis() - coolDownTime));
-            return;
+        final Instant lastBedrockBreakerUse = cooldown.getCooldown(player.getUniqueId());
+        if (lastBedrockBreakerUse != null) {
+            final Duration timeBetweenUse = Duration.between(Instant.now(), lastBedrockBreakerUse).abs();
+            if (timeBetweenUse.compareTo(config.getCooldownTime()) < 0) {
+                final String formattedTime = TimeUtil.getFormattedTime(config.getCooldownTime().minus(timeBetweenUse).toMillis(), config.getDelimiter(), config.isShortFormTime());
+                messageAPI.sendMessage("cooldownBreakTime", player, Replacement.of("{TIME}", formattedTime));
+                return;
+            }
         }
 
         cooldown.addCooldown(player.getUniqueId());
@@ -105,7 +111,10 @@ public final class PlayerInteractListener implements Listener {
             itemMeta.setDisplayName(displayName);
             itemMeta.setLore(breakToolLore);
             eventItem.setItemMeta(itemMeta);
-            messageAPI.sendMessage("removeBedrock", player, ImmutableMap.of("{USE_AMOUNT}", ActualUseAmount, "{MAX_USE_AMOUNT}", maxUseAmount));
+            messageAPI.sendMessage(
+                    "removeBedrock", player,
+                    Replacement.of("{USE_AMOUNT}", ActualUseAmount),
+                    Replacement.of("{MAX_USE_AMOUNT}", maxUseAmount));
         }
 
         clickedBlock.setType(Material.AIR);

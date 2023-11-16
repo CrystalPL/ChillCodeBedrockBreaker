@@ -1,12 +1,29 @@
-# Konfiguracja komendy /bedrockBreaker
+# Konfiguracja komend
 command:
   GiveCommand:
     name: "bedrockbreaker"
     aliases: ""
+  ReloadCommand:
+    name: "bedrockreload"
+    aliases: ""
+
+# separator do wyświetlania np. listy graczy
+delimiter: "&7, &6"
+
+# separator do wyświetlania czasu
+timeDelimiter: ", "
+
+# czy mają być wyświetlane skrócone formy czasu
+# minut -> min itd.
+shortFormTime: false
 
 # czy przedmiot może być używany zgodnie ze swoim przeznaczeniem, tj. czy ma niszczyć tylko bedrock
-# jeśli dasz na true, gracz tym przedmiotem nie będzie mógł niszczyć np. ziemi, drewna.
+# jeśli dasz na true, gracz tym przedmiotem nie będzie mógł niszczyć np. ziemi, drewna
 breakOnlyBedrock: false
+
+# czas, co jaki bedrock breaker może być użyty, w sekundach
+# czas ten nie jest przechowywany w bazie danych, więc po wyłączeniu pluginu cooldown sie zresetuje
+cooldownTime: 10
 
 # od którego poziomu włącznie, może być niszczony bedrock
 minimumHeightToBreakBedrock: 1
